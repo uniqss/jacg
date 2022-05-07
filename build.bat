@@ -1,24 +1,33 @@
 @echo off
 
+
+
+
+set PROJS=jsoncpp openxlsx jacg
+
+if "1" == "1" (
+    set BAT_BUILD_TYPE=Debug
+) else (
+    set BAT_BUILD_TYPE=Release
+)
+
+
+
+
 cd projects
 
+for %%P in (%PROJS%) do (
+    echo "build %%P start ############################################################################"
+    pushd %%P
+    call build.bat %BAT_BUILD_TYPE%
+    popd
 
-
-
-pushd openxlsx
-call build.bat
-popd
-
-echo "build openxlsx done ==========================================================================="
-
-
-pushd jacg
-call build.bat
-popd
-
-echo "build jacg done ==========================================================================="
-
+    echo "build %%P done ==========================================================================="
+)
 
 cd ..
 
-rem pause
+
+
+
+@REM pause

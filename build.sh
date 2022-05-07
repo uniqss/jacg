@@ -10,20 +10,24 @@
 cd projects
 
 
-cd openxlsx
-sh build.sh
+
+
+PROJS=(jsoncpp openxlsx jacg)
+
+
+
+
+for P in "$PROJS"
+do
+
+    echo "build $P start ############################################################################"
+    pushd $P
+    call build.sh
+    popd
+
+    echo "build $P done ==========================================================================="
+done
+
 cd ..
-
-echo "build openxlsx done ==========================================================================="
-
-
-cd jacg
-sh build.sh
-cd ..
-
-echo "build jacg done ==========================================================================="
-
-
-
 
 # echo continue && read -n 1

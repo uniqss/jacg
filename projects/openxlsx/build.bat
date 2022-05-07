@@ -1,6 +1,13 @@
 cd OpenXLSX-0.3.1
 
-set BAT_BUILD_TYPE=RelWithDebInfo
+
+
+IF "%~1" == "" (
+    set BAT_BUILD_TYPE=Release
+) else (
+    set BAT_BUILD_TYPE=%1
+)
+
 
 
 rm -rf build
@@ -17,7 +24,7 @@ cmake --install . --prefix ..\..\..\ --config %BAT_BUILD_TYPE%
 cd ..
 
 mkdir ..\..\..\bin\%BAT_BUILD_TYPE%\
-cp -R ./build/output/%BAT_BUILD_TYPE%/*.dll ..\..\..\bin\%BAT_BUILD_TYPE%\
+cp -R ..\..\bin\*.dll ..\..\..\bin\%BAT_BUILD_TYPE%\
 
 cd ..
 

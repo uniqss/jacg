@@ -17,7 +17,7 @@ pushd build
 BAT_BUILD_TYPE=relwithdebinfo
 
 cmake -DCMAKE_BUILD_TYPE=$BAT_BUILD_TYPE ..
-cmake --build . --config $BAT_BUILD_TYPE
+cmake --build . --config $BAT_BUILD_TYPE --parallel 8
 
 popd
 

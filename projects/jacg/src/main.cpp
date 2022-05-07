@@ -10,23 +10,23 @@ std::string strInputPath;
 std::string strJsonOutputPathCpp;
 std::string strJsonOutputPathJs;
 
-void help(const char* exename) {
+void help(const string& pe_name) {
     cout << "uniqs cfg generator" << endl;
     cout << "by uniqs. contact uniqs@163.com for details." << endl;
     cout << "usage:" << endl;
-    cout << exename << " currpath(linux`pwd` windows %~dp0) input_path [cpp_output_path [json_output_path_cpp [json_output_path_js]]]" << endl;
+    cout << pe_name << " currpath(linux`pwd` windows %~dp0) input_path [cpp_output_path [json_output_path_cpp [json_output_path_js]]]" << endl;
     cout << "input_path: the xlsx input folder fullpath" << endl;
     cout << "json_output_path_cpp: where the generated json data files to put(for cpp), default is ./json_cpp/" << endl;
     cout << "json_output_path_js: where the generated json data files to put(for js), default is ./json_js/" << endl;
 }
 
 void trimpathwin(std::string& str, bool append_splash_end = true) {
-    for (int nIdx = 0; nIdx < str.size(); ++nIdx) {
-        if (str[nIdx] == '\\') {
-            str[nIdx] = '/';
-        }
-    }
-    if (append_splash_end && str[str.size() - 1] != '/') {
+    //for (int nIdx = 0; nIdx < str.size(); ++nIdx) {
+    //    if (str[nIdx] == '\\') {
+    //        str[nIdx] = '/';
+    //    }
+    //}
+    if (append_splash_end && str[str.size() - 1] != '/' && str[str.size() - 1] != '\\') {
         str += "/";
     }
 }
@@ -51,9 +51,11 @@ string trimpathfromarg(std::string& strCurrPath, std::string& str) {
 }
 
 int main(int argc, const char** argv) {
+    string pe_name;
+    if (argc > 0) pe_name = argv[0];
     int nPreArg = 1;
     if (argc < nPreArg + 2) {
-        help(argv[nPreArg + 0]);
+        help(pe_name);
         return -1;
     }
     string strCurrPath = argv[1];

@@ -157,7 +157,7 @@ bool CGeneratorCPP::GenDTHeader(const std::string& gen_name, const std::vector<s
 
             if (setPK.find(ctype) != setPK.end()) {
                 // ofs << indent << "key = " << col_name[nIdx] << " = tValue[\"" << col_name[nIdx] << "\"].asInt();" << endl;
-                ofs << indent << "if (!_TrimJsonValueInt(tValue, \"" << col_name[nIdx] << "\", " << col_name[nIdx] << ")) { ULOG_ERROR << \" " << cname << "."
+                ofs << indent << "if (!_TrimJsonValueInt(tValue, \"" << col_name[nIdx] << "\", " << col_name[nIdx] << ")) { err = \" " << cname << "."
                     << col_name[nIdx] << " error.\"; return false; }" << endl;
                 ofs << indent << "key = " << col_name[nIdx] << ";" << endl;
             } else {
@@ -166,19 +166,19 @@ bool CGeneratorCPP::GenDTHeader(const std::string& gen_name, const std::vector<s
             }
         } else {
             if (ctype == "int") {
-                ofs << indent << "if (!_TrimJsonValueInt(tValue, \"" << col_name[nIdx] << "\", " << col_name[nIdx] << ")) { ULOG_ERROR << \" " << cname << "."
+                ofs << indent << "if (!_TrimJsonValueInt(tValue, \"" << col_name[nIdx] << "\", " << col_name[nIdx] << ")) { err = \" " << cname << "."
                     << col_name[nIdx] << " error.\"; return false; }" << endl;
             } else if (ctype == "uint") {
-                ofs << indent << "if (!_TrimJsonValueUint(tValue, \"" << col_name[nIdx] << "\", " << col_name[nIdx] << ")) { ULOG_ERROR << \" " << cname << "."
+                ofs << indent << "if (!_TrimJsonValueUint(tValue, \"" << col_name[nIdx] << "\", " << col_name[nIdx] << ")) { err = \" " << cname << "."
                     << col_name[nIdx] << " error.\"; return false; }" << endl;
             } else if (ctype == "string") {
-                ofs << indent << "if (!_TrimJsonValueString(tValue, \"" << col_name[nIdx] << "\", " << col_name[nIdx] << ")) { ULOG_ERROR << \" " << cname << "."
+                ofs << indent << "if (!_TrimJsonValueString(tValue, \"" << col_name[nIdx] << "\", " << col_name[nIdx] << ")) { err = \" " << cname << "."
                     << col_name[nIdx] << " error.\"; return false; }" << endl;
             } else if (ctype == "int[]" || ctype == "uint[]" || ctype == "string[]") {
-                ofs << indent << "if (!GetArrayFromTable(" << col_name[nIdx] << ", tValue, \"" << col_name[nIdx] << "\")) { ULOG_ERROR << \" " << cname << "."
+                ofs << indent << "if (!GetArrayFromTable(" << col_name[nIdx] << ", tValue, \"" << col_name[nIdx] << "\")) { err = \" " << cname << "."
                     << col_name[nIdx] << " error.\"; return false; }" << endl;
             } else if (ctype == "int[[]]" || ctype == "uint[[]]" || ctype == "string[[]]") {
-                ofs << indent << "if (!GetArray2FromTable(" << col_name[nIdx] << ", tValue, \"" << col_name[nIdx] << "\")) { ULOG_ERROR << \" " << cname << "."
+                ofs << indent << "if (!GetArray2FromTable(" << col_name[nIdx] << ", tValue, \"" << col_name[nIdx] << "\")) { err = \" " << cname << "."
                     << col_name[nIdx] << " error.\"; return false; }" << endl;
             } else {
                 cout << " ==========ERROR========== type not supported:" << col_type[nIdx] << endl;

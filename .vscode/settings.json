@@ -8,6 +8,8 @@
         "*.inc": "cpp",
         "*.lua.txt": "lua",
         "filesystem": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "vector": "cpp",
+        "unordered_map": "cpp"
     }
 }

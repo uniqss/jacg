@@ -28,6 +28,8 @@
 
 # Executables
 *.exe
+*.pdb
 *.out
 *.app
 build
+test

@@ -133,5 +133,7 @@ int main(int argc, const char** argv) {
 
     oGenerator.GenCfgTables(vecXlsxFileNames);
 
+    cout << "generate done." << endl;
+
     return 0;
 }

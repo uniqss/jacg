@@ -37,6 +37,9 @@ IF (WIN32)
 ENDIF(WIN32)
 
 ADD_EXECUTABLE(${PNAME} ${project_src_cpp} ${project_src_h} ${uniqs_xlsx_reader_cpp} ${uniqs_xlsx_reader_h} ${cfg_src_cpp} ${cfg_src_h} ${project_include})
-ModuleDependLibraryShared(${PNAME} OpenXLSXd)
-ModuleDependLibraryShared(${PNAME} jsoncpp)
+
+# ModuleDependLibraryShared(${PNAME} OpenXLSXd)
+ModuleDependLibraryShared(${PNAME} OpenXLSX)
+
+# ModuleDependLibraryShared(${PNAME} jsoncpp)
 # TARGET_LINK_LIBRARIES(${PNAME} ../../lib/)

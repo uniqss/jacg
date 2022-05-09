@@ -13,7 +13,12 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 # uniqs end
 
 project(OpenXLSX.Library VERSION 0.3.2 LANGUAGES CXX)
-set(CMAKE_DEBUG_POSTFIX d)
+
+# uniqs begin
+# comment this out
+# set(CMAKE_DEBUG_POSTFIX d)
+# uniqs end
+
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)

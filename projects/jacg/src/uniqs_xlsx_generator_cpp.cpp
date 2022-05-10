@@ -48,11 +48,11 @@ bool CGeneratorCPP::GenCfgTables(const std::vector<std::string>& rNames) {
     ofs << endl;
 
     for (auto it : rNames) {
-        ofs << indent << "void LoadDTTables_" << it << "(const char* szFile)" << endl;
+        ofs << indent << "bool LoadDTTables_" << it << "(const char* szFile, std::string& err)" << endl;
         ofs << indent << "{" << endl;
         ++indent;
         ofs << indent << "Json::Value jvalue;" << endl;
-        ofs << indent << "ReadJson(jvalue, szFile);" << endl;
+        ofs << indent << "if (!ReadJson(jvalue, szFile, err)) return false;" << endl;
         ofs << endl;
         ofs << indent << "if (!g_pCfg_" << it << ")" << endl;
         ofs << indent << "{" << endl;
@@ -61,18 +61,22 @@ bool CGeneratorCPP::GenCfgTables(const std::vector<std::string>& rNames) {
         --indent;
         ofs << indent << "}" << endl;
         ofs << endl;
-        ofs << indent << "g_pCfg_" << it << "->LoadDT(jvalue);" << endl;
+        ofs << indent << "if (!g_pCfg_" << it << "->LoadDT(jvalue)) return false;" << endl;
+        ofs << endl;
+        ofs << indent << "return true;" << endl;
         --indent;
         ofs << indent << "}" << endl;
         ofs << endl;
     }
 
-    ofs << "void LoadDTTables()" << endl;
+    ofs << "bool LoadDTTables(std::string& err)" << endl;
     ofs << "{" << endl;
     ++indent;
     for (auto it : rNames) {
-        ofs << indent << "LoadDTTables_" << it << "(\"./TableJson/DT" << it << ".json\");" << endl;
+        ofs << indent << "if (!LoadDTTables_" << it << "(\"./TableJson/DT" << it << ".json\", err)) return false;" << endl;
     }
+    ofs << endl;
+    ofs << indent << "return true;" << endl;
     --indent;
     ofs << "}" << endl;
 

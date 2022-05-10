@@ -1,3 +1,5 @@
 #pragma once
 
-void LoadDTTables();
+#include <string>
+
+bool LoadDTTables(std::string& err);

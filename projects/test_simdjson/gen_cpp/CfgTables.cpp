@@ -12,20 +12,19 @@ std::unique_ptr<DTCfgTable<int, DTtest>> g_pCfg_test = nullptr;
 
 bool LoadDTTables_test(const char* szFile, std::string& err)
 {
-	Json::Value jvalue;
-	if (!ReadJson(jvalue, szFile, err)) return false;
-
 	if (!g_pCfg_test)
 	{
 		g_pCfg_test = std::make_unique<DTCfgTable<int, DTtest>>();
 	}
 
-	if (!g_pCfg_test->LoadDT(jvalue)) return false;
+	if (!g_pCfg_test->Load(szFile, err)) return false;
 
 	return true;
 }
 
-void LoadDTTables()
+bool LoadDTTables(std::string& err)
 {
-	LoadDTTables_test("./TableJson/DTtest.json");
+	if (!LoadDTTables_test("./TableJson/DTtest.json", err)) return false;
+
+	return true;
 }

@@ -15,7 +15,7 @@ class DTtest
 		: int1(0)
 		, int2(0)
 	{}
-	bool LoadDT(Json::Value& tValue, int& key, std::string& err)
+	bool LoadDT(simdjson::ondemand::value& tValue, int& key, std::string& err)
 	{
 		if (!_TrimJsonValueInt(tValue, "int1", int1)) { err = " DTtest.int1 error."; return false; }
 		key = int1;

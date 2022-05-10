@@ -324,7 +324,7 @@ bool CGeneratorCPP::GenDatas(const std::string& gen_name, const std::vector<std:
     // gen server json, used for cpp
     {
         Indent indent;
-        string json_cpp = strJsonOutputPathCpp + gen_name + ".json";
+        string json_cpp = strJsonOutputPathCpp + "DT" + gen_name + ".json";
         ofstream ofs(json_cpp.c_str());
         ofs << indent << "{" << endl;
         ++indent;
@@ -373,7 +373,7 @@ bool CGeneratorCPP::GenDatas(const std::string& gen_name, const std::vector<std:
     // gen client json, used for js
     {
         Indent indent;
-        string json_js = strJsonOutputPathJs + gen_name + ".json";
+        string json_js = strJsonOutputPathJs + "DT" + gen_name + ".json";
         ofstream ofs(json_js.c_str());
         ofs << indent << "{" << endl;
         ++indent;

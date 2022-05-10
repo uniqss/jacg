@@ -3,7 +3,6 @@
 #include "stl.h"
 
 #include "strtk.hpp"
-#include "json_helper.h"
 
 template <class T>
 inline bool GetArrayFromTable(std::vector<T>& vecData, const std::string& s, const char* del = "|") {
@@ -15,16 +14,6 @@ inline bool GetArrayFromTable(std::vector<T>& vecData, const std::string& s, con
     std::copy(tokenizer.begin(), tokenizer.end(), strtk::range_to_type_back_inserter(vecData));
 
     return true;
-}
-
-template <class T>
-inline bool GetArrayFromTable(std::vector<T>& vecData, simdjson::ondemand::value& tValue, const char* column, const char* del = "|") {
-    std::string s;
-    if (!_TrimJsonValueString(tValue, column, s)) {
-        return false;
-    }
-
-    return GetArrayFromTable(vecData, s, del);
 }
 
 template <class T>
@@ -43,13 +32,4 @@ inline bool GetArray2FromTable(std::vector<std::vector<T>>& vecData, const std::
     }
 
     return true;
-}
-
-template <class T>
-inline bool GetArray2FromTable(std::vector<std::vector<T>>& vecData, simdjson::ondemand::value& tValue, const char* column) {
-    std::string s;
-    if (!_TrimJsonValueString(tValue, column, s)) {
-        return false;
-    }
-    return GetArray2FromTable(vecData, s);
 }

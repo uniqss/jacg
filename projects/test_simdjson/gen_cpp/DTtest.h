@@ -19,8 +19,8 @@ class DTtest
 		if (!_TrimJsonValueInt(tValue, "int1", int1)) { err = " DTtest.int1 error."; return false; }
 		key = int1;
 		if (!_TrimJsonValueString(tValue, "str2server", str2server)) { err = " DTtest.str2server error."; return false; }
-		if (!GetArrayFromTable(intarray1, tValue, "intarray1")) { err = " DTtest.intarray1 error."; return false; }
-		if (!GetArrayFromTable(stringarray1, tValue, "stringarray1")) { err = " DTtest.stringarray1 error."; return false; }
+		if (!GetArrayFromTable(intarray, tValue, "intarray")) { err = " DTtest.intarray error."; return false; }
+		if (!GetArrayFromTable(stringarray, tValue, "stringarray")) { err = " DTtest.stringarray error."; return false; }
 		if (!GetArray2FromTable(intarray2, tValue, "intarray2")) { err = " DTtest.intarray2 error."; return false; }
 		if (!GetArray2FromTable(stringarray2, tValue, "stringarray2")) { err = " DTtest.stringarray2 error."; return false; }
 		return true;
@@ -29,9 +29,9 @@ class DTtest
 public:
 	int int1;// 这是int1
 	std::string str2server;// 我是你二叔
-	std::vector<int> intarray1;// 我是你三大爷
-	std::vector<std::string> stringarray1;// 我是你四舅
-	std::vector<std::vector<unsigned int>> intarray2;// 我是你外公
+	std::vector<int> intarray;// 我是你三大爷
+	std::vector<std::string> stringarray;// 我是你四舅
+	std::vector<std::vector<int>> intarray2;// 我是你外公
 	std::vector<std::vector<std::string>> stringarray2;// 我是孙悟空
 };
 

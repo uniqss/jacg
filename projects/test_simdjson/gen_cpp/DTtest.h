@@ -18,7 +18,6 @@ class DTtest
 	{
 		if (!_TrimJsonValueInt(tValue, "int1", int1)) { err = " DTtest.int1 error."; return false; }
 		key = int1;
-		if (!_TrimJsonValueUint(tValue, "int2", int2)) { err = " DTtest.int2 error."; return false; }
 		if (!_TrimJsonValueString(tValue, "str2server", str2server)) { err = " DTtest.str2server error."; return false; }
 		if (!GetArrayFromTable(intarray1, tValue, "intarray1")) { err = " DTtest.intarray1 error."; return false; }
 		if (!GetArrayFromTable(stringarray1, tValue, "stringarray1")) { err = " DTtest.stringarray1 error."; return false; }
@@ -29,7 +28,6 @@ class DTtest
 
 public:
 	int int1;// 这是int1
-	unsigned int int2;// 这是中文
 	std::string str2server;// 我是你二叔
 	std::vector<int> intarray1;// 我是你三大爷
 	std::vector<std::string> stringarray1;// 我是你四舅

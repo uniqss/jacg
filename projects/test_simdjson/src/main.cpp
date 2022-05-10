@@ -18,7 +18,6 @@ int main() {
         auto it = g_pCfg_test->find(10000101);
         if (it != nullptr) {
             cout << it->int1 << endl;
-            cout << it->int2 << endl;
             cout << it->str2server << endl;
         }
 

@@ -7,7 +7,8 @@
 
 #include "simdjson.h"
 #include "json_helper.h"
-#include "CfgComplexType.h"
+#include "CfgTypes.h"
+#include "CfgTypesRead.h"
 
 template <class K, class V>
 class DTCfgTable {

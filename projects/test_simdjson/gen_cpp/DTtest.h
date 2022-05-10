@@ -13,7 +13,6 @@ class DTtest
 	public:
 	DTtest()
 		: int1(0)
-		, int2(0)
 	{}
 	bool LoadDT(simdjson::ondemand::value& tValue, int& key, std::string& err)
 	{

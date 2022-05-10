@@ -122,7 +122,7 @@ bool CGeneratorCPP::GenDTHeader(const std::string& gen_name, const std::vector<s
     ++indent;
     bool bFirst = true;
 
-    static unordered_set<string> setInit0 = {"int", "uint"};
+    static unordered_set<string> setInit0 = {"int"};
 
     for (int nIdx = 0; nIdx < col_name.size() && nIdx < col_type.size(); ++nIdx) {
         string ctype = col_type[nIdx];
@@ -141,7 +141,7 @@ bool CGeneratorCPP::GenDTHeader(const std::string& gen_name, const std::vector<s
     ofs << indent << "{" << endl;
     ++indent;
 
-    static unordered_set<string> setPK = {"int", "uint"};
+    static unordered_set<string> setPK = {"int"};
 
     bFirst = true;
     for (int nIdx = 0; nIdx < col_name.size() && nIdx < col_name.size() && nIdx < col_type.size(); ++nIdx) {

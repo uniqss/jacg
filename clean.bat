@@ -2,7 +2,7 @@
 
 
 
-set PROJS=jsoncpp openxlsx jacg
+set PROJS=openxlsx jacg test_simdjson
 
 
 

@@ -1,1 +1,11 @@
-.\bin\Debug\uconfig.exe %~dp0 ./test/xlsx ./test/gen_cpp ./test/json_cpp ./test/json_js
+pushd bin\Debug
+
+call test.bat
+
+popd
+
+pushd projects\test_simdjson\bin\Debug\
+
+test_generated.exe
+
+popd

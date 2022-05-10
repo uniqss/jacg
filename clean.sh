@@ -8,7 +8,7 @@
 
 
 
-PROJS=(jsoncpp openxlsx jacg)
+PROJS=(openxlsx jacg test_simdjson)
 
 
 

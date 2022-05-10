@@ -3,7 +3,7 @@
 
 
 
-set PROJS=jsoncpp openxlsx jacg
+set PROJS=openxlsx jacg test_simdjson
 
 if "1" == "1" (
     set BAT_BUILD_TYPE=Debug

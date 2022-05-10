@@ -51,9 +51,6 @@ bool CGeneratorCPP::GenCfgTables(const std::vector<std::string>& rNames) {
         ofs << indent << "bool LoadDTTables_" << it << "(const char* szFile, std::string& err)" << endl;
         ofs << indent << "{" << endl;
         ++indent;
-        ofs << indent << "Json::Value jvalue;" << endl;
-        ofs << indent << "if (!ReadJson(jvalue, szFile, err)) return false;" << endl;
-        ofs << endl;
         ofs << indent << "if (!g_pCfg_" << it << ")" << endl;
         ofs << indent << "{" << endl;
         ++indent;
@@ -61,7 +58,7 @@ bool CGeneratorCPP::GenCfgTables(const std::vector<std::string>& rNames) {
         --indent;
         ofs << indent << "}" << endl;
         ofs << endl;
-        ofs << indent << "if (!g_pCfg_" << it << "->LoadDT(jvalue)) return false;" << endl;
+        ofs << indent << "if (!g_pCfg_" << it << "->Load(szFile, err)) return false;" << endl;
         ofs << endl;
         ofs << indent << "return true;" << endl;
         --indent;
@@ -140,7 +137,7 @@ bool CGeneratorCPP::GenDTHeader(const std::string& gen_name, const std::vector<s
     }
     --indent;
     ofs << indent << "{}" << endl;
-    ofs << indent << "bool Load(Json::Value& tValue, int& key)" << endl;
+    ofs << indent << "bool LoadDT(simdjson::ondemand::value& tValue, int& key, std::string& err)" << endl;
     ofs << indent << "{" << endl;
     ++indent;
 

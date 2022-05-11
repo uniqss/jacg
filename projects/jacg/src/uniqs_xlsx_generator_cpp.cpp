@@ -5,6 +5,12 @@
 
 #include "strtk_helper.h"
 
+#define PERROR cout << __FILE__ << __LINE__
+
+void trans_lower(std::string& col) {
+    std::transform(col.begin(), col.end(), col.begin(), ::tolower);
+}
+
 
 bool CGeneratorCPP::GenerateOneSheet(const std::string& sheet_name, const std::string& gen_name, const std::vector<std::vector<std::string>>& rData) {
     if (rData.size() < 4) {
@@ -95,7 +101,7 @@ bool CGeneratorCPP::GenThisCol(const std::vector<std::string>& head, int nIdx, b
     if (head[nIdx].size() >= 1 && head[nIdx][0] == '#') return false;
     if (head[nIdx].empty()) return true;
     string strHead = head[nIdx];
-    std::transform(strHead.begin(), strHead.end(), strHead.begin(), ::tolower);
+    trans_lower(strHead);
     if (strHead.find("c") != string::npos && !bServer) return true;
     if (strHead.find("s") != string::npos && bServer) return true;
 
@@ -126,7 +132,7 @@ bool CGeneratorCPP::GenDTHeader(const std::string& gen_name, const std::vector<s
 
     for (int nIdx = 0; nIdx < col_name.size() && nIdx < col_type.size(); ++nIdx) {
         string ctype = col_type[nIdx];
-        std::transform(ctype.begin(), ctype.end(), ctype.begin(), ::tolower);
+        trans_lower(ctype);
         if (setInit0.find(ctype) != setInit0.end() && GenThisCol(head, nIdx)) {
             if (bFirst) {
                 bFirst = false;
@@ -151,7 +157,7 @@ bool CGeneratorCPP::GenDTHeader(const std::string& gen_name, const std::vector<s
         }
 
         string ctype = col_type[nIdx];
-        std::transform(ctype.begin(), ctype.end(), ctype.begin(), ::tolower);
+        trans_lower(ctype);
 
         if (bFirst) {
             bFirst = false;
@@ -162,7 +168,7 @@ bool CGeneratorCPP::GenDTHeader(const std::string& gen_name, const std::vector<s
                     << col_name[nIdx] << " error.\"; return false; }" << endl;
                 ofs << indent << "key = " << col_name[nIdx] << ";" << endl;
             } else {
-                cout << " ==========ERROR========== key must be numeric type(";
+                PERROR << " ==========ERROR========== key must be numeric type(";
                 std::for_each(setPK.begin(), setPK.end(), [](const std::string& val) { cout << val << " "; });
                 cout << "):" << col_type[nIdx] << " col_name:" << col_name[nIdx] << endl;
                 return false;
@@ -177,11 +183,23 @@ bool CGeneratorCPP::GenDTHeader(const std::string& gen_name, const std::vector<s
             } else if (ctype == "intarr" || ctype == "stringarr") {
                 ofs << indent << "if (!GetArrayFromTable(" << col_name[nIdx] << ", tValue, \"" << col_name[nIdx] << "\")) { err = \" " << cname << "."
                     << col_name[nIdx] << " error.\"; return false; }" << endl;
-            } else if (ctype == "int[[]]" || ctype == "string[[]]") {
+            } else if (ctype == "intarr2" || ctype == "stringarr2") {
                 ofs << indent << "if (!GetArray2FromTable(" << col_name[nIdx] << ", tValue, \"" << col_name[nIdx] << "\")) { err = \" " << cname << "."
                     << col_name[nIdx] << " error.\"; return false; }" << endl;
+            } else if (ctype == "int2" || ctype == "string2") {
+                ofs << indent << "if (!GetVal2FromTable(" << col_name[nIdx] << ", tValue, \"" << col_name[nIdx] << "\")) { err = \" " << cname << "."
+                    << col_name[nIdx] << " error.\"; return false; }" << endl;
+            } else if (ctype == "int2arr" || ctype == "string2arr") {
+                ofs << indent << "if (!GetVal2ArrFromTable(" << col_name[nIdx] << ", tValue, \"" << col_name[nIdx] << "\")) { err = \" " << cname << "."
+                    << col_name[nIdx] << " error.\"; return false; }" << endl;
+            } else if (ctype == "int3" || ctype == "string3") {
+                ofs << indent << "if (!GetVal3FromTable(" << col_name[nIdx] << ", tValue, \"" << col_name[nIdx] << "\")) { err = \" " << cname << "."
+                    << col_name[nIdx] << " error.\"; return false; }" << endl;
+            } else if (ctype == "int3arr" || ctype == "string3arr") {
+                ofs << indent << "if (!GetVal3ArrFromTable(" << col_name[nIdx] << ", tValue, \"" << col_name[nIdx] << "\")) { err = \" " << cname << "."
+                    << col_name[nIdx] << " error.\"; return false; }" << endl;
             } else {
-                cout << " ==========ERROR========== type not supported:" << col_type[nIdx] << endl;
+                PERROR << " ==========ERROR========== type not supported:" << ctype << endl;
                 return false;
             }
         }
@@ -201,7 +219,7 @@ bool CGeneratorCPP::GenDTHeader(const std::string& gen_name, const std::vector<s
         }
 
         string ctype = col_type[nIdx];
-        std::transform(ctype.begin(), ctype.end(), ctype.begin(), ::tolower);
+        trans_lower(ctype);
 
         if (ctype == "int") {
             ofs << indent << "int " << col_name[nIdx] << ";// " << comment[nIdx] << endl;
@@ -211,12 +229,28 @@ bool CGeneratorCPP::GenDTHeader(const std::string& gen_name, const std::vector<s
             ofs << indent << "std::vector<int> " << col_name[nIdx] << ";// " << comment[nIdx] << endl;
         } else if (ctype == "stringarr") {
             ofs << indent << "std::vector<std::string> " << col_name[nIdx] << ";// " << comment[nIdx] << endl;
-        } else if (ctype == "int[[]]") {
+        } else if (ctype == "int2") {
+            ofs << indent << "CfgInt2 " << col_name[nIdx] << ";// " << comment[nIdx] << endl;
+        } else if (ctype == "string2") {
+            ofs << indent << "CfgString2 " << col_name[nIdx] << ";// " << comment[nIdx] << endl;
+        } else if (ctype == "int2arr") {
+            ofs << indent << "std::vector<CfgInt2> " << col_name[nIdx] << ";// " << comment[nIdx] << endl;
+        } else if (ctype == "string2arr") {
+            ofs << indent << "std::vector<CfgString2> " << col_name[nIdx] << ";// " << comment[nIdx] << endl;
+        } else if (ctype == "int3") {
+            ofs << indent << "CfgInt3 " << col_name[nIdx] << ";// " << comment[nIdx] << endl;
+        } else if (ctype == "string3") {
+            ofs << indent << "CfgString3 " << col_name[nIdx] << ";// " << comment[nIdx] << endl;
+        } else if (ctype == "int3arr") {
+            ofs << indent << "std::vector<CfgInt3> " << col_name[nIdx] << ";// " << comment[nIdx] << endl;
+        } else if (ctype == "string3arr") {
+            ofs << indent << "std::vector<CfgString3> " << col_name[nIdx] << ";// " << comment[nIdx] << endl;
+        } else if (ctype == "intarr2") {
             ofs << indent << "std::vector<std::vector<int>> " << col_name[nIdx] << ";// " << comment[nIdx] << endl;
-        } else if (ctype == "string[[]]") {
+        } else if (ctype == "stringarr2") {
             ofs << indent << "std::vector<std::vector<std::string>> " << col_name[nIdx] << ";// " << comment[nIdx] << endl;
         } else {
-            cout << " ==========ERROR========== type not supported:" << col_type[nIdx] << endl;
+            PERROR << " ==========ERROR========== type not supported:" << col_type[nIdx] << endl;
             return false;
         }
     }
@@ -237,13 +271,18 @@ bool CGeneratorCPP::GenDTHeader(const std::string& gen_name, const std::vector<s
 
 template <class T>
 bool _GenArr1(ofstream& ofs, Indent& indent, const string& ctype, bool& cdefault, const vector<string>& rLine, int ncol, int nIdx, const string& gen_name,
-              const int& row_start) {
+              const int& row_start, int fixed_len1 = -1) {
     ofs << "[";
     if (!cdefault) {
         vector<T> vdata;
         if (!GetArrayFromTable(vdata, rLine[ncol])) {
-            cout << " ==========ERROR========== IntArr pasrse data error. gen_name:" << gen_name << " line:" << nIdx + row_start + 1 << " data:" << rLine[ncol]
-                 << endl;
+            PERROR << " ==========ERROR========== IntArr pasrse data error. gen_name:" << gen_name << " line:" << nIdx + row_start + 1 << " data:" << rLine[ncol]
+                   << endl;
+            return false;
+        }
+        if (fixed_len1 > 0 && vdata.size() != fixed_len1) {
+            PERROR << " ==========ERROR========== IntArr pasrse data error, fixed_len1 check error. gen_name:" << gen_name << " line:" << nIdx + row_start + 1
+                   << " data:" << rLine[ncol] << " fixed_len1:" << fixed_len1 << " len:" << vdata.size() << endl;
             return false;
         }
         for (int ntmp = 0; ntmp < vdata.size(); ++ntmp) {
@@ -263,7 +302,7 @@ bool _GenArr1(ofstream& ofs, Indent& indent, const string& ctype, bool& cdefault
 
 template <class T>
 bool _GenArr2(ofstream& ofs, Indent& indent, const string& ctype, bool& cdefault, const vector<string>& rLine, int ncol, int nIdx, const string& gen_name,
-              const int& row_start) {
+              const int& row_start, int fixed_len1 = -1, int fixed_len2 = -1) {
     if (cdefault) {
         ofs << "[]";
     } else {
@@ -271,20 +310,26 @@ bool _GenArr2(ofstream& ofs, Indent& indent, const string& ctype, bool& cdefault
         ++indent;
         vector<vector<T>> vdata;
         if (!GetArray2FromTable(vdata, rLine[ncol])) {
-            cout << " ==========ERROR========== pasrse " << ctype << " data error. gen_name:" << gen_name << " line:" << nIdx + row_start + 1
-                 << " data:" << rLine[ncol] << endl;
+            PERROR << " ==========ERROR========== pasrse " << ctype << " data error. gen_name:" << gen_name << " line:" << nIdx + row_start + 1
+                   << " data:" << rLine[ncol] << endl;
             return false;
         }
 
         for (int i = 0; i < vdata.size(); ++i) {
             const auto& rarr1 = vdata[i];
             if (rarr1.empty()) continue;
+            if (fixed_len1 > 0 && rarr1.size() != fixed_len1) {
+                PERROR << " ==========ERROR========== pasrse " << ctype << " data error, fixed_len1 check error. gen_name:" << gen_name
+                       << " line:" << nIdx + row_start + 1 << " data:" << rLine[ncol] << ". " << rarr1.size() << " != " << fixed_len1 << endl;
+                return false;
+            }
             ofs << indent << "[";
             for (int j = 0; j < rarr1.size(); ++j) {
+                const auto& rarr1j = rarr1[j];
                 if (typeid(T) == typeid(string)) {
-                    ofs << "\"" << rarr1[j] << "\"";
+                    ofs << "\"" << rarr1j << "\"";
                 } else {
-                    ofs << rarr1[j];
+                    ofs << rarr1j;
                 }
                 if (j < rarr1.size() - 1) {
                     ofs << ", ";
@@ -310,7 +355,7 @@ bool CGeneratorCPP::GenDatas(const std::string& gen_name, const std::vector<std:
     const auto& col_names = rData[1];
     auto col_types = rData[2];
     auto col_status = rData[0];
-    for (auto it : col_types) std::transform(it.begin(), it.end(), it.begin(), ::tolower);
+    for (auto& it : col_types) trans_lower(it);
 
     int col_count = std::min(rData[1].size(), rData[2].size());
 
@@ -326,7 +371,7 @@ bool CGeneratorCPP::GenDatas(const std::string& gen_name, const std::vector<std:
             bool bLastLine = nIdx == rData.size() - 1;
 
             if (rLine.size() < key_count) {
-                cout << " ==========ERROR========== data must have key. gen_name:" << gen_name << " line:" << nIdx + row_start + 1 << endl;
+                PERROR << " ==========ERROR========== data must have key. gen_name:" << gen_name << " line:" << nIdx + row_start + 1 << endl;
                 return false;
             }
 
@@ -375,7 +420,7 @@ bool CGeneratorCPP::GenDatas(const std::string& gen_name, const std::vector<std:
             bool bLastLine = nIdx == rData.size() - 1;
 
             if (rLine.size() < key_count) {
-                cout << " ==========ERROR========== data must have key. gen_name:" << gen_name << " line:" << nIdx + row_start + 1 << endl;
+                PERROR << " ==========ERROR========== data must have key. gen_name:" << gen_name << " line:" << nIdx + row_start + 1 << endl;
                 return false;
             }
 
@@ -397,30 +442,39 @@ bool CGeneratorCPP::GenDatas(const std::string& gen_name, const std::vector<std:
                     } else {
                         ofs << rLine[ncol];
                     }
-                }
-
-                if (ctype == "string") {
+                } else if (ctype == "string") {
                     ofs << "\"";
                     if (!cdefault) {
                         ofs << rLine[ncol];
                     }
                     ofs << "\"";
-                }
-
-                if (ctype == "intarr") {
+                } else if (ctype == "intarr") {
                     if (!_GenArr1<int>(ofs, indent, ctype, cdefault, rLine, ncol, nIdx, gen_name, row_start)) return false;
-                }
-
-                if (ctype == "stringarr") {
+                } else if (ctype == "stringarr") {
                     if (!_GenArr1<string>(ofs, indent, ctype, cdefault, rLine, ncol, nIdx, gen_name, row_start)) return false;
-                }
-
-                if (ctype == "int[[]]") {
+                } else if (ctype == "intarr2") {
                     if (!_GenArr2<int>(ofs, indent, ctype, cdefault, rLine, ncol, nIdx, gen_name, row_start)) return false;
-                }
-
-                if (ctype == "string[[]]") {
+                } else if (ctype == "stringarr2") {
                     if (!_GenArr2<string>(ofs, indent, ctype, cdefault, rLine, ncol, nIdx, gen_name, row_start)) return false;
+                } else if (ctype == "int2") {
+                    if (!_GenArr1<int>(ofs, indent, ctype, cdefault, rLine, ncol, nIdx, gen_name, row_start, 2)) return false;
+                } else if (ctype == "string2") {
+                    if (!_GenArr1<string>(ofs, indent, ctype, cdefault, rLine, ncol, nIdx, gen_name, row_start, 2)) return false;
+                } else if (ctype == "int2arr") {
+                    if (!_GenArr2<int>(ofs, indent, ctype, cdefault, rLine, ncol, nIdx, gen_name, row_start, 2)) return false;
+                } else if (ctype == "string2arr") {
+                    if (!_GenArr2<string>(ofs, indent, ctype, cdefault, rLine, ncol, nIdx, gen_name, row_start, 2)) return false;
+                } else if (ctype == "int3") {
+                    if (!_GenArr1<int>(ofs, indent, ctype, cdefault, rLine, ncol, nIdx, gen_name, row_start, 3)) return false;
+                } else if (ctype == "string3") {
+                    if (!_GenArr1<string>(ofs, indent, ctype, cdefault, rLine, ncol, nIdx, gen_name, row_start, 3)) return false;
+                } else if (ctype == "int3arr") {
+                    if (!_GenArr2<int>(ofs, indent, ctype, cdefault, rLine, ncol, nIdx, gen_name, row_start, 3)) return false;
+                } else if (ctype == "string3arr") {
+                    if (!_GenArr2<string>(ofs, indent, ctype, cdefault, rLine, ncol, nIdx, gen_name, row_start, 3)) return false;
+                } else {
+                    PERROR << " ==========ERROR========== type not supported:" << ctype << endl;
+                    return false;
                 }
 
                 // 处理最后的逗号，最后一个col不要加逗号

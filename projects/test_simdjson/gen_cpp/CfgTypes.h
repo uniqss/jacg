@@ -26,20 +26,3 @@ struct CfgString3 {
     std::string val2;
     std::string val3;
 };
-
-
-struct CfgInt2Arr {
-    std::vector<CfgInt2> values;
-};
-
-struct CfgString2Arr {
-    std::vector<CfgString2> values;
-};
-
-struct CfgInt3Arr {
-    std::vector<CfgInt3> values;
-};
-
-struct CfgString3Arr {
-    std::vector<CfgString3> values;
-};

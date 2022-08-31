@@ -12,17 +12,17 @@ cd projects
 
 
 
-PROJS=(openxlsx jacg test_simdjson)
+PROJS="openxlsx jacg test_simdjson"
 
 
 
 
-for P in "$PROJS"
+for P in $PROJS
 do
 
     echo "build $P start ############################################################################"
     pushd $P
-    call build.sh
+    sh build.sh
     popd
 
     echo "build $P done ==========================================================================="

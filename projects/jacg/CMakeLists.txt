@@ -1,45 +1,58 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.5)
 
-SET(PNAME "uconfig")
+set(PROJECT_NAME uconfig)
+PROJECT(${PROJECT_NAME} LANGUAGES CXX)
 
-PROJECT(${PNAME})
+#set(CMAKE_UNITY_BUILD yes)
+#set(CMAKE_UNITY_BUILD_BATCH_SIZE 16)
 
-INCLUDE(../cmake/ModuleImport.cmake)
-INCLUDE(../cmake/ModuleDepends.cmake)
-LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
-INCLUDE(../cmake/ModuleCompileOptions.cmake)
-ModuleSetCompileOptions()
-ModuleSetWinCompilerFlags()
+#=======================================================================================================================
+# Set C/C++ compiler version
+#=======================================================================================================================
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(IGNORE_ME ${CMAKE_C_COMPILER}) # Suppress CMake warning message
 
-SET(UNIQS_VERSION_MAJOR "1")
-SET(UNIQS_VERSION_MINOR "0")
-SET(UNIQS_VERSION_PATCH "1")
-SET(UNIQS_VERSION "${UNIQS_VERSION_MAJOR}.${UNIQS_VERSION_MINOR}.${UNIQS_VERSION_PATCH}")
+if (WIN32)
+	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
+else()
+	#find_package(asio CONFIG REQUIRED)
+endif()
 
-MESSAGE(STATUS "VERSION: ${UNIQS_VERSION}")
+INCLUDE_DIRECTORIES(
+	${CMAKE_CURRENT_SOURCE_DIR}/uniqs_xlsx_reader
+	${CMAKE_CURRENT_SOURCE_DIR}/cfg
+	${CMAKE_CURRENT_SOURCE_DIR}/src
+	${CMAKE_CURRENT_SOURCE_DIR}/include
+	${CMAKE_CURRENT_SOURCE_DIR}/../include
+	${CMAKE_CURRENT_SOURCE_DIR}/../include/OpenXLSX
+	)
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../include/)
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../include/openxlsx/)
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/uniqs_xlsx_reader/)
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../cfg/)
-#INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../include/sol/)
+file(GLOB PROJECT_SRC_FILES
+	"src/*.cpp"
+	"src/*.h"
+	"uniqs_xlsx_reader/*.cpp"
+	"uniqs_xlsx_reader/*.h"
+	"cfg/*.cpp"
+	"cfg/*.h"
+	"include/*.h"
+	)
 
-FILE(GLOB project_src_cpp "src/*.cpp")
-FILE(GLOB project_src_h "src/*.h")
-FILE(GLOB uniqs_xlsx_reader_cpp "uniqs_xlsx_reader/*.cpp")
-FILE(GLOB uniqs_xlsx_reader_h "uniqs_xlsx_reader/*.h")
-FILE(GLOB cfg_src_cpp "cfg/*.cpp")
-FILE(GLOB cfg_src_h "cfg/*.h")
-FILE(GLOB project_include "include/*.h")
+source_group(src FILES ${PROJECT_SRC_FILES})
+list(APPEND SELF_SRC_FILES ${PROJECT_SRC_FILES})
 
-IF (WIN32)
-    LIST(APPEND project_src_cpp)
-ENDIF(WIN32)
+add_executable(${PROJECT_NAME} ${SELF_SRC_FILES})
 
-ADD_EXECUTABLE(${PNAME} ${project_src_cpp} ${project_src_h} ${uniqs_xlsx_reader_cpp} ${uniqs_xlsx_reader_h} ${cfg_src_cpp} ${cfg_src_h} ${project_include})
+if (WIN32)
+	#target_link_libraries(${PROJECT_NAME} jemalloc)
+else()
+	#link_directories(../../lib64)
+	#target_link_libraries(${PROJECT_NAME} libOpenXLSX.a)
+	#target_link_libraries(${PROJECT_NAME} OpenXLSX)
+	ADD_LIBRARY(OpenXLSX STATIC IMPORTED)
+	SET_TARGET_PROPERTIES(OpenXLSX PROPERTIES
+		IMPORTED_LOCATION ../../lib64/libOpenXLSX.a)
+	TARGET_LINK_LIBRARIES(${PROJECT_NAME} OpenXLSX)
+endif()
 
-# ModuleDependLibraryShared(${PNAME} OpenXLSXd)
-ModuleDependLibraryShared(${PNAME} OpenXLSX)
-
-# ModuleDependLibraryShared(${PNAME} jsoncpp)
-# TARGET_LINK_LIBRARIES(${PNAME} ../../lib/)

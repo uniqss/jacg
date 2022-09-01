@@ -23,7 +23,7 @@ popd
 
 
 mkdir -p ../../bin/$BAT_BUILD_TYPE/
-cp -R ./bin/$BAT_BUILD_TYPE/* ../../bin/$BAT_BUILD_TYPE/
+cp -a ./bin/$BAT_BUILD_TYPE/* ../../bin/$BAT_BUILD_TYPE/
 
 # popd
 

@@ -22,9 +22,12 @@ bool LoadDTTables_test(const char* szFile, std::string& err)
 	return true;
 }
 
-bool LoadDTTables(std::string& err)
+bool LoadDTTables(const std::string& prefix, std::string& err)
 {
-	if (!LoadDTTables_test("./TableJson/DTtest.json", err)) return false;
+	std::string file;
+
+	file = prefix + "DTtest.json";
+	if (!LoadDTTables_test(file.c_str(), err)) return false;
 
 	return true;
 }

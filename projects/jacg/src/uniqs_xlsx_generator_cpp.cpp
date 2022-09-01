@@ -72,11 +72,13 @@ bool CGeneratorCPP::GenCfgTables(const std::vector<std::string>& rNames) {
         ofs << endl;
     }
 
-    ofs << "bool LoadDTTables(std::string& err)" << endl;
+    ofs << "bool LoadDTTables(const std::string& prefix, std::string& err)" << endl;
     ofs << "{" << endl;
     ++indent;
+    ofs << indent << "std::string file;" << endl << endl;
     for (auto it : rNames) {
-        ofs << indent << "if (!LoadDTTables_" << it << "(\"./TableJson/DT" << it << ".json\", err)) return false;" << endl;
+        ofs << indent << "file = prefix + \"DT" << it << ".json\";" << endl;
+        ofs << indent << "if (!LoadDTTables_" << it << "(file.c_str(), err)) return false;" << endl;
     }
     ofs << endl;
     ofs << indent << "return true;" << endl;

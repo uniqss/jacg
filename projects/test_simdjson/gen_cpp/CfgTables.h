@@ -2,4 +2,4 @@
 
 #include <string>
 
-bool LoadDTTables(std::string& err);
+bool LoadDTTables(const std::string& prefix, std::string& err);

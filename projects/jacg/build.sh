@@ -14,7 +14,7 @@ rm -rf build
 mkdir -p build
 pushd build
 
-BAT_BUILD_TYPE=relwithdebinfo
+BAT_BUILD_TYPE=Release
 
 cmake -DCMAKE_BUILD_TYPE=$BAT_BUILD_TYPE ..
 cmake --build . --config $BAT_BUILD_TYPE --parallel 8
@@ -23,7 +23,7 @@ popd
 
 
 mkdir -p ../../bin/$BAT_BUILD_TYPE/
-cp -a ./bin/$BAT_BUILD_TYPE/* ../../bin/$BAT_BUILD_TYPE/
+cp -a ./build/uconfig ../../bin/$BAT_BUILD_TYPE/
 
 # popd
 

@@ -14,7 +14,7 @@ rm -rf build
 mkdir -p build
 pushd build
 
-BAT_BUILD_TYPE=relwithdebinfo
+BAT_BUILD_TYPE=Release
 
 cmake -DCMAKE_BUILD_TYPE=$BAT_BUILD_TYPE ..
 cmake --build . --config $BAT_BUILD_TYPE --parallel 8

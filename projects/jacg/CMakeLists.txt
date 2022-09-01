@@ -14,8 +14,24 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(IGNORE_ME ${CMAKE_C_COMPILER}) # Suppress CMake warning message
 
+
 if (WIN32)
 	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
+	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+	set(CMAKE_CXX_FLAGS_RELEASE "/MT")
+	set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
+	set(CompilerFlags
+        CMAKE_CXX_FLAGS
+        CMAKE_CXX_FLAGS_DEBUG
+        CMAKE_CXX_FLAGS_RELEASE
+        CMAKE_C_FLAGS
+        CMAKE_C_FLAGS_DEBUG
+        CMAKE_C_FLAGS_RELEASE
+        )
+	foreach(CompilerFlag ${CompilerFlags})
+	string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
+	endforeach()
 else()
 	#find_package(asio CONFIG REQUIRED)
 endif()
@@ -45,7 +61,7 @@ list(APPEND SELF_SRC_FILES ${PROJECT_SRC_FILES})
 add_executable(${PROJECT_NAME} ${SELF_SRC_FILES})
 
 if (WIN32)
-	#target_link_libraries(${PROJECT_NAME} jemalloc)
+	target_link_libraries(${PROJECT_NAME} ../../lib/OpenXLSX)
 else()
 	option(OpenXLSX_SHARED "openxlsx is shared not static" OFF)
 	if (OpenXLSX_SHARED)
@@ -57,12 +73,14 @@ else()
 			IMPORTED_LOCATION ../../lib64/libOpenXLSX.so)
 		TARGET_LINK_LIBRARIES(${PROJECT_NAME} OpenXLSX stdc++fs)
 	else ()
-		#link_directories(../../lib64)
-		#target_link_libraries(${PROJECT_NAME} libOpenXLSX.a)
-		#target_link_libraries(${PROJECT_NAME} OpenXLSX)
 		ADD_LIBRARY(OpenXLSX STATIC IMPORTED)
-		SET_TARGET_PROPERTIES(OpenXLSX PROPERTIES
-			IMPORTED_LOCATION ../../lib64/libOpenXLSX.a)
+		IF(CYGWIN)
+			SET_TARGET_PROPERTIES(OpenXLSX PROPERTIES
+				IMPORTED_LOCATION ../../lib/libOpenXLSX.a)
+		ELSE()
+			SET_TARGET_PROPERTIES(OpenXLSX PROPERTIES
+				IMPORTED_LOCATION ../../lib64/libOpenXLSX.a)
+		ENDIF()
 		TARGET_LINK_LIBRARIES(${PROJECT_NAME} OpenXLSX stdc++fs)
 	endif()
 endif()

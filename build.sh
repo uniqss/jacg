@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# - install depends tools
-# yum -y install git
-# yum -y install gcc gcc-c++ autoconf libtool automake make
-#
-
 
 
 cd projects
@@ -21,9 +16,9 @@ for P in $PROJS
 do
 
     echo "build $P start ############################################################################"
-    pushd $P
+    cd $P
     sh build.sh
-    popd
+	cd ..
 
     echo "build $P done ==========================================================================="
 done

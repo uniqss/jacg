@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# - install depends tools
-# yum -y install git
-# yum -y install gcc gcc-c++ autoconf libtool automake make
-#
-
-
 
 
 PROJS=(openxlsx jacg test_simdjson)
@@ -23,9 +17,9 @@ for P in "$PROJS"
 do
 
     echo "clean $P start ############################################################################"
-    pushd $P
+    cd $P
     call clean.sh
-    popd
+	cd ..
 
     echo "clean $P done ==========================================================================="
 done
@@ -37,22 +31,22 @@ cd ..
 
 
 
-pushd spdlog
+cd spdlog
 rm -rf bin
 rm -rf build
 rm -rf lib
 sh clean_all.sh
-popd
+cd ..
 
 echo "clean spdlog done ==========================================================================="
 
 
-pushd uconfiglua
+cd uconfiglua
 rm -rf bin
 rm -rf build
 rm -rf lib
 sh clean_all.sh
-popd
+cd ..
 
 echo "clean uconfiglua done ==========================================================================="
 

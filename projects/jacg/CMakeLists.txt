@@ -79,7 +79,10 @@ else()
 				IMPORTED_LOCATION ../../lib/libOpenXLSX.a)
 		ELSE()
 			SET_TARGET_PROPERTIES(OpenXLSX PROPERTIES
-				IMPORTED_LOCATION ../../lib64/libOpenXLSX.a)
+				# centos is lib64
+				#IMPORTED_LOCATION ../../lib64/libOpenXLSX.a)
+				# ubuntu is lib
+				IMPORTED_LOCATION ../../lib/libOpenXLSX.a)
 		ENDIF()
 		TARGET_LINK_LIBRARIES(${PROJECT_NAME} OpenXLSX stdc++fs)
 	endif()

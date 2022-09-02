@@ -1,1 +1,1 @@
-cp -a ./bin/Release/uconfig ../cc_design/gen/
+cp -a ./bin/Release/uconfig ../cc_design/__gen/

@@ -31,6 +31,10 @@ xcopy /S /Q /Y .\%BAT_BUILD_TYPE%\*.exe ..\..\bin\%BAT_BUILD_TYPE%\
 xcopy /S /Q /Y .\%BAT_BUILD_TYPE%\*.dll ..\..\bin\%BAT_BUILD_TYPE%\
 xcopy /S /Q /Y .\%BAT_BUILD_TYPE%\*.pdb ..\..\bin\%BAT_BUILD_TYPE%\
 
+xcopy /S /Q /Y .\build\%BAT_BUILD_TYPE%\*.exe ..\..\bin\%BAT_BUILD_TYPE%\
+xcopy /S /Q /Y .\build\%BAT_BUILD_TYPE%\*.dll ..\..\bin\%BAT_BUILD_TYPE%\
+xcopy /S /Q /Y .\build\%BAT_BUILD_TYPE%\*.pdb ..\..\bin\%BAT_BUILD_TYPE%\
+
 cd ..
 
 rem pause

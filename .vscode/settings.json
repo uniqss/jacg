@@ -7,6 +7,7 @@
         "*.mat": "yaml",
         "*.inc": "cpp",
         "*.lua.txt": "lua",
+        "*.bat": "bat",
         "*": "cpp",
         "ostream": "cpp",
         "algorithm": "cpp",
@@ -98,6 +99,6 @@
         "xstring": "cpp",
         "xtr1common": "cpp",
         "xtree": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
     }
 }

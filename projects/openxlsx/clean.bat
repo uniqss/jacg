@@ -1,6 +1,5 @@
 
+rd /S /Q OpenXLSX-0.3.2\build
+rd /S /Q OpenXLSX-20220507\build
 
-@REM rm -rf OpenXLSX-0.3.2/build
-rm -rf OpenXLSX-20220507/build
-
-rm -rf ../../include/openxlsx/
+rd /S /Q ..\..\include\openxlsx\

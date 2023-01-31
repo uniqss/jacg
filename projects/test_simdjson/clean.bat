@@ -1,2 +1,2 @@
-rm -rf build
-rm -rf bin
+rd /S /Q build
+rd /S /Q bin

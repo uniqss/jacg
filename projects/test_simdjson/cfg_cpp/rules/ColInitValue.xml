@@ -1,0 +1,18 @@
+<root fromRow="3">
+    <trans from="Int" to="int"/>
+    <trans from="Str" to="std::string"/>
+    <trans from="IntArr" to="std::vector<int>"/>
+    <trans from="StrArr" to="std::vector<std::string>"/>
+    <trans from="Int2" to="CfgInt2"/>
+    <trans from="Str2" to="CfgString2"/>
+    <trans from="Int2Arr" to="std::vector<CfgInt2>"/>
+    <trans from="Str2Arr" to="std::vector<CfgString2>"/>
+    <trans from="Int3" to="CfgInt3"/>
+    <trans from="Str3" to="CfgString3"/>
+    <trans from="Int3Arr" to="std::vector<CfgInt3>"/>
+    <trans from="Str3Arr" to="std::vector<CfgString3>"/>
+    <trans from="Int4" to="CfgInt4"/>
+    <trans from="Str4" to="CfgString4"/>
+    <trans from="Int4Arr" to="std::vector<CfgInt4>"/>
+    <trans from="Str4Arr" to="std::vector<CfgString4>"/>
+</root>

@@ -1,0 +1,9 @@
+{
+{{%Loop.row%}}
+	"{{%=col.1%}}": {
+		{{%Loop.col%}}
+		"{{%=row.2%}}": "{{%=row.col%}}"{{%NotLastLine%}},{{%NotLastLineEnd%}}
+		{{%LoopEnd.col%}}
+	}{{%NotLastLine%}},{{%NotLastLineEnd%}}
+{{%LoopEnd.row%}}
+}

@@ -3,9 +3,8 @@
 #include "stl.h"
 
 extern std::string strOutPath;
-extern std::string strInputPath;
-extern std::string strJsonOutputPathCpp;
-extern std::string strJsonOutputPathJs;
+std::string strCfgPath;
+extern std::string strInputXlsxPath;
 
 class CGenerator {
    public:

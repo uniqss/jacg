@@ -1,0 +1,18 @@
+<root fromRow="3">
+    <trans from="Int" to="_TrimJsonValueInt"/>
+    <trans from="Str" to="_TrimJsonValueString"/>
+    <trans from="IntArr" to="GetArrayFromTable"/>
+    <trans from="StrArr" to="GetArrayFromTable"/>
+    <trans from="Int2" to="GetVal2FromTable"/>
+    <trans from="Str2" to="GetVal2FromTable"/>
+    <trans from="Int2Arr" to="GetVal2ArrFromTable"/>
+    <trans from="Str2Arr" to="GetVal2ArrFromTable"/>
+    <trans from="Int3" to="GetVal3FromTable"/>
+    <trans from="Str3" to="GetVal3FromTable"/>
+    <trans from="Int3Arr" to="GetVal3ArrFromTable"/>
+    <trans from="Str3Arr" to="GetVal3ArrFromTable"/>
+    <trans from="Int4" to="GetVal4FromTable"/>
+    <trans from="Str4" to="GetVal4FromTable"/>
+    <trans from="Int4Arr" to="GetVal4ArrFromTable"/>
+    <trans from="Str4Arr" to="GetVal4ArrFromTable"/>
+</root>

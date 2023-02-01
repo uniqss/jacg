@@ -7,12 +7,10 @@
 #include "CfgTables.h"
 
 {{%Loop.sheet%}}
-#include "DTtest.h"
 #include "DT{{%=SheetName%}}.h"
 {{%LoopEnd.sheet%}}
 
 {{%Loop.sheet%}}
-std::unique_ptr<DTCfgTable<int, DTtest>> g_pCfg_test = nullptr;
 std::unique_ptr<DTCfgTable<int, DT{{%=SheetName%}}>> g_pCfg_{{%=SheetName%}} = nullptr;
 {{%LoopEnd.sheet%}}
 
@@ -28,7 +26,6 @@ bool LoadDTTables_{{%=SheetName%}}(const char* szFile, std::string& err)
 
 	return true;
 }
-
 {{%LoopEnd.sheet%}}
 
 bool LoadDTTables(const std::string& prefix, std::string& err)
@@ -38,6 +35,7 @@ bool LoadDTTables(const std::string& prefix, std::string& err)
 {{%Loop.sheet%}}
 	file = prefix + "DT{{%=SheetName%}}.json";
 	if (!LoadDTTables_{{%=SheetName%}}(file.c_str(), err)) return false;
+
 {{%LoopEnd.sheet%}}
 
 	return true;

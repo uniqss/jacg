@@ -1,4 +1,4 @@
-<root fromRow="3">
+<root type="col" fromRow="3">
     <trans from="Int" to="int"/>
     <trans from="Str" to="std::string"/>
     <trans from="IntArr" to="std::vector<int>"/>

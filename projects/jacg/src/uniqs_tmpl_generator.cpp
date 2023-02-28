@@ -25,6 +25,29 @@ static bool StrContains(const std::string& str, const std::string& target) {
     return str.find(target) != std::string::npos;
 }
 
+static void TrimLeftRightSpaces(std::string& ret, const std::string& str) {
+    if (str.empty()) {
+        ret = str;
+        return;
+    }
+
+    size_t begin = 0;
+    size_t end = str.size() - 1;
+    auto isSpace = [](const std::string& s, size_t idx) { return s[idx] == ' ' || s[idx] == '\t'; };
+    while (begin < end) {
+        if (isSpace(str, begin)) {
+            ++begin;
+            continue;
+        } else if (isSpace(str, end)) {
+            --end;
+            continue;
+        } else {
+            break;
+        }
+    }
+    ret = str.substr(begin, end - begin);
+}
+
 int CTemplatedGenerator::Generate(const std::vector<string>& vecFileFullNames, const std::vector<string>& vecFileNames,
                                   const std::string& strCfgPath, const std::string& strOutPath) {
     int ret = 0;
@@ -38,7 +61,8 @@ int CTemplatedGenerator::Generate(const std::vector<string>& vecFileFullNames, c
     }
 
     std::vector<XlsxDataWithName> allHeadData;
-    ret = ReadAllHeadData(allHeadData, vecFileFullNames, vecFileNames);
+
+    ret = ReadAllHeadData(allHeadData, vecFileFullNames, vecFileNames, 6);
     if (ret != 0) {
         return ret;
     }
@@ -54,8 +78,9 @@ int CTemplatedGenerator::Generate(const std::vector<string>& vecFileFullNames, c
                     const auto& sheetData = xlsxData.second;
                     std::string genFileName = tmplName;
                     StrReplaceAll(genFileName, "{{%=SheetName%}}", sheetName);
-                    TemplatedGenOneFile(genFileName, strOutPath, allHeadData, rules, tmpl, xlsxName, sheetName,
-                                        sheetData);
+                    ret = TemplatedGenOneSheet(genFileName, strOutPath, allHeadData, rules, tmpl, xlsxName, sheetName,
+                                               sheetData);
+                    if (ret != 0) return ret;
                 }
             }
 
@@ -71,10 +96,9 @@ int CTemplatedGenerator::Generate(const std::vector<string>& vecFileFullNames, c
     return 0;
 }
 
-
 int CTemplatedGenerator::ReadAllHeadData(std::vector<XlsxDataWithName>& allHeadData,
                                          const std::vector<std::string>& vecFileFullNames,
-                                         const std::vector<std::string>& vecFileNames) {
+                                         const std::vector<std::string>& vecFileNames, int maxRows) {
     for (int nIdx = 0; nIdx < vecFileNames.size(); ++nIdx) {
         auto pos = vecFileNames[nIdx].find(".xlsx");
         if (pos == std::string::npos) continue;
@@ -83,7 +107,7 @@ int CTemplatedGenerator::ReadAllHeadData(std::vector<XlsxDataWithName>& allHeadD
         std::string xlsxName = gen_name;
 
         XlsxData vecxlsx;
-        int nRet = read_xlsx(vecFileFullNames[nIdx].c_str(), vecxlsx, 6);
+        int nRet = read_xlsx(vecFileFullNames[nIdx].c_str(), vecxlsx, maxRows);
         if (nRet != 0) {
             cout << "read_xlsx error." << endl;
             continue;
@@ -162,12 +186,19 @@ int CTemplatedGenerator::ReadCfg(Rules& rules, UTemplates& templates, const std:
     return 0;
 }
 
+enum EParseState {
+    EPS_Invalid,
+    EPS_Line,
+    EPS_LoopSheet,
+    EPS_LoopSheetRow,
+    EPS_LoopSheetCol,
+    EPS_LoopSheetRowCol,
+};
 
-
-int CTemplatedGenerator::TemplatedGenOneFile(const std::string& genFileName, const std::string& strOutPath,
-                                             const std::vector<XlsxDataWithName>& allHeadData, const Rules& rules,
-                                             const UTemplate& tmpl, const std::string& xlsxName,
-                                             const std::string& sheetName, const SheetData& sheetData) {
+int CTemplatedGenerator::TemplatedGenOneSheet(const std::string& genFileName, const std::string& strOutPath,
+                                              const std::vector<XlsxDataWithName>& allHeadData, const Rules& rules,
+                                              const UTemplate& tmpl, const std::string& xlsxName,
+                                              const std::string& sheetName, const SheetData& sheetData) {
     std::ofstream ofs;
     std::filesystem::path p = strOutPath;
     p.append(genFileName);
@@ -175,23 +206,34 @@ int CTemplatedGenerator::TemplatedGenOneFile(const std::string& genFileName, con
     if (!ofs) {
         return -1;
     }
-    bool LoopCol = false;
+    EParseState parseState = EPS_LoopSheet;
+
+    const std::string LoopCol = "{{%Loop.col%}}";
+    const std::string LoopColEnd = "{{%LoopEnd.col%}}";
+    const std::string LoopRow = "{{%Loop.row%}}";
+    const std::string LoopRowEnd = "{{%LoopEnd.row%}}";
+
+    std::string lineTrimed;
     for (auto line : tmpl.second) {
-        if (StrContains(line, "{{%Loop.col%}}")) {
-            if (LoopCol) {
-                cout << "LoopCol cannot nest." << endl;
+        TrimLeftRightSpaces(lineTrimed, line);
+        if (StrContains(lineTrimed, LoopCol)) {
+            if (parseState != EPS_LoopSheet && parseState != EPS_LoopSheetRow) {
+                cout << "Loop.col can only be in Loop.sheet." << endl;
                 return -1;
             }
-            LoopCol = true;
-            continue;
-        } else if (StrContains(line, "{{%LoopEnd.col%}}")) {
-            if (!LoopCol) {
+            if (parseState == EPS_LoopSheet)
+                parseState = EPS_LoopSheetCol;
+            else
+                parseState = EPS_LoopSheetRowCol;
+            if (lineTrimed == LoopCol) continue;
+        } else if (StrContains(lineTrimed, LoopColEnd)) {
+            if (parseState != EPS_LoopCol) {
                 cout << "LoopEnd not match." << endl;
                 return -1;
             }
-            LoopCol = false;
-            continue;
-        }
+            if (lineTrimed == LoopColEnd) continue;
+        } else if (StrContains(lineTrimed, LoopRow)) {
+            if (parseState != EPS_LoopSheet) }
 
         if (!LoopCol) {
             // directly

@@ -1,4 +1,4 @@
-<root fromRow="3">
+<root>
     <trans from="Int" to="_TrimJsonValueInt"/>
     <trans from="Str" to="_TrimJsonValueString"/>
     <trans from="IntArr" to="GetArrayFromTable"/>

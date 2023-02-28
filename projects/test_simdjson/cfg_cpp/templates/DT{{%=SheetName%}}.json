@@ -2,8 +2,8 @@
 {{%Loop.row%}}
 	"{{%=col.1%}}": {
 		{{%Loop.col%}}
-		"{{%=row.2%}}": "{{%=row.col%}}"{{%NotLastLine%}},{{%NotLastLineEnd%}}
+		"{{%=row.2%}}": "{{%=row:col%}}"{{%NotLastOne%}},{{%NotLastOneEnd%}}
 		{{%LoopEnd.col%}}
-	}{{%NotLastLine%}},{{%NotLastLineEnd%}}
+	}{{%NotLastOne%}},{{%NotLastOneEnd%}}
 {{%LoopEnd.row%}}
 }

@@ -20,10 +20,11 @@ class CTemplatedGenerator {
 
    private:
     int ReadAllHeadData(std::vector<XlsxDataWithName>& allHeadData, const std::vector<string>& vecFileFullNames,
-                        const std::vector<string>& vecFileNames);
+                        const std::vector<string>& vecFileNames, int maxRows);
     int ReadCfg(Rules& rules, UTemplates& templates, const std::string& strCfgPath);
 
-    int TemplatedGenOneFile(const std::string& genFileName, const std::string& strOutPath,
-                            const std::vector<XlsxDataWithName>& allHeadData, const Rules& rules, const UTemplate& tmpl,
-                            const std::string& xlsxName, const std::string& sheetName, const SheetData& sheetData);
+    int TemplatedGenOneSheet(const std::string& genFileName, const std::string& strOutPath,
+                             const std::vector<XlsxDataWithName>& allHeadData, const Rules& rules,
+                             const UTemplate& tmpl, const std::string& xlsxName, const std::string& sheetName,
+                             const SheetData& sheetData);
 };

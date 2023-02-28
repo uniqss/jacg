@@ -13,15 +13,15 @@ class DT{{%=SheetName%}}
 	public:
 	DT{{%=SheetName%}}() :
 			{{%Loop.col%}}
-		{{%=ColInitValue%}}{{%NotLastLine%}},{{%NotLastLineEnd%}}
+		{{%=ColInitValue%}}
 			{{%LoopEnd.col%}}
 	{}
-	bool LoadDT(simdjson::ondemand::value& tValue, int& key, std::string& err)
+	bool LoadDT(simdjson::ondemand::value& tValue, {{%=row:col.2:1}}& key, std::string& err)
 	{
 			{{%Loop.col%}}
-		if (!{{%=ColReadFunc%}}(tValue, "{{%=row.2%}}", {{%=row.2%}})) { err = " DT{{%=SheetName%}}.{{%=row.2%}} error."; return false; }
+		if (!{{%=TransColType2ReadFunc.row.3%}}(tValue, "{{%=row.2%}}", {{%=row.2%}})) { err = " DT{{%=SheetName%}}.{{%=row.2%}} error."; return false; }
 			{{%LoopEnd.col%}}
-		key = {{%=row.col.2.1}};
+		key = {{%=row:col.2:1}};
 
 		return true;
 	}
@@ -32,5 +32,5 @@ public:
 {{%LoopEnd.col%}}
 };
 
-extern std::unique_ptr<DTCfgTable<int, DT{{%=SheetName%}}>> g_pCfg_{{%=SheetName%}};// DT{{%=SheetName%}}.json
+extern std::unique_ptr<DTCfgTable<{{%=row:col.2:1}}, DT{{%=SheetName%}}>> g_pCfg_{{%=SheetName%}};// DT{{%=SheetName%}}.json
 

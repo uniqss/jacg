@@ -1,0 +1,50 @@
+{
+	"10000101": {
+		"int1": 10000101,
+		"str2server": "teststr2",
+		"intarray": "1|2|3|4",
+		"stringarray": "hehe|haha|hel|lo",
+		"reward_sg": "100101|100",
+		"name_icon": "金币|icon_money",
+		"reward_mt": "100101|100+300201|50+700301|12",
+		"icon_namr_arr": "icon_gold|金币+icon_weapon_456|圣剑",
+		"idtypenum": "100101|1|100",
+		"sss": "icon_gold|金币|show_1234",
+		"reward_mt_2": "100101|1|100+300201|3|50",
+		"str3arr": "icon_gold|金币|show_1234+icon_weapon_456|圣剑|show_456",
+		"intarray2": "41000001|100|1+51000001|200|2",
+		"stringarray2": "additemkey1|additemdesc1|color_white+additemkey2|additemdesc2|color_green"
+	},
+	"10000102": {
+		"int1": 10000102,
+		"str2server": "teststr202",
+		"intarray": "111|222|333|444",
+		"stringarray": "xixi|haha|wo|rld",
+		"reward_sg": "300201|50",
+		"name_icon": "圣剑|icon_weapon",
+		"reward_mt": "100101|100+300201|50",
+		"icon_namr_arr": "icon_weapon_456|圣剑+icon_material_123|天星岩",
+		"idtypenum": "300201|3|50",
+		"sss": "icon_weapon_456|圣剑|show_456",
+		"reward_mt_2": "300201|3|50+700301|7|12",
+		"str3arr": "icon_gold|金币|show_1234+icon_weapon_789|金币|show_123",
+		"intarray2": "41000001|1000|1+51000001|2000|2",
+		"stringarray2": "additemkey1|additemdesc1|color_white+additemkey2|additemdesc2|color_green"
+	},
+	"10000103": {
+		"int1": 10000103,
+		"str2server": "sssss33",
+		"intarray": "5|6|77|888",
+		"stringarray": "qq|ww|ee|rr",
+		"reward_sg": "700301|12",
+		"name_icon": "天星岩|icon_xx",
+		"reward_mt": "100101|100",
+		"icon_namr_arr": "icon_gold|金币+icon_material_123|天星岩",
+		"idtypenum": "700301|7|12",
+		"sss": "icon_material_123|天星岩|sss",
+		"reward_mt_2": "100101|1|100+700301|7|12",
+		"str3arr": "icon_gold|金币|show_1234+icon_weapon_456|圣剑|show_456",
+		"intarray2": "41000001|1000|1+51000001|2000|2",
+		"stringarray2": "additemkey1|additemdesc1|color_white+additemkey2|additemdesc2|color_green"
+	}
+}

@@ -11,3 +11,5 @@ build.bat
 ```
 sh build.sh
 ```
+
+### template generation is moved to [https://github.com/uniqss/templated_generator/](https://github.com/uniqss/templated_generator/) this is cpp only.

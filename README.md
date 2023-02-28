@@ -1,5 +1,11 @@
 # jacg
-just another cfg generator
+just another cfg generator。
+
+## Destination
+* one rule
+* cpp implement
+* as better as possible
+* easy to use, in many projects.
 
 ### build.win
 * install cygwin. cygwin terminal switch to jacg root.

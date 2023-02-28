@@ -12,4 +12,5 @@ build.bat
 sh build.sh
 ```
 
-### template generation is moved to [https://github.com/uniqss/templated_generator/](https://github.com/uniqss/templated_generator/) this is cpp only.
+### template generation is moved to [https://github.com/uniqss/templated_generator/](https://github.com/uniqss/templated_generator/) 
+### jacg should be cpp only.

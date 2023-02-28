@@ -6,39 +6,28 @@
 
 #include "CfgTables.h"
 
-{{%Loop.sheet%}}
 #include "DTtest.h"
-#include "DT{{%=SheetName%}}.h"
-{{%LoopEnd.sheet%}}
 
-{{%Loop.sheet%}}
 std::unique_ptr<DTCfgTable<int, DTtest>> g_pCfg_test = nullptr;
-std::unique_ptr<DTCfgTable<int, DT{{%=SheetName%}}>> g_pCfg_{{%=SheetName%}} = nullptr;
-{{%LoopEnd.sheet%}}
 
-{{%Loop.sheet%}}
-bool LoadDTTables_{{%=SheetName%}}(const char* szFile, std::string& err)
+bool LoadDTTables_test(const char* szFile, std::string& err)
 {
-	if (!g_pCfg_{{%=SheetName%}})
+	if (!g_pCfg_test)
 	{
-		g_pCfg_{{%=SheetName%}} = std::make_unique<DTCfgTable<int, DT{{%=SheetName%}}>>();
+		g_pCfg_test = std::make_unique<DTCfgTable<int, DTtest>>();
 	}
 
-	if (!g_pCfg_{{%=SheetName%}}->Load(szFile, err)) return false;
+	if (!g_pCfg_test->Load(szFile, err)) return false;
 
 	return true;
 }
-
-{{%LoopEnd.sheet%}}
 
 bool LoadDTTables(const std::string& prefix, std::string& err)
 {
 	std::string file;
 
-{{%Loop.sheet%}}
-	file = prefix + "DT{{%=SheetName%}}.json";
-	if (!LoadDTTables_{{%=SheetName%}}(file.c_str(), err)) return false;
-{{%LoopEnd.sheet%}}
+	file = prefix + "DTtest.json";
+	if (!LoadDTTables_test(file.c_str(), err)) return false;
 
 	return true;
 }

@@ -1,3 +1,0 @@
-	{{%Loop.row%}}
-{{%Loop.col%}}"{{%=row.2%}}": "{{%=row:col%}}"{{%NotLastOne%}}, {{%NotLastOneEnd%}}{{%LoopEnd.col%}}
-	{{%LoopEnd.row%}}
